@@ -14,7 +14,7 @@ def get_todo_list(request):
 
 def create_an_item(request):
     if request.method == "POST":
-        form = ItemForm(request.POST, request.FILES)
+        form = ItemForm(request.POST, request.FILES, blank=False)
         if form.is_valid():
             form.save()
             return redirect(get_todo_list)
@@ -26,7 +26,14 @@ def create_an_item(request):
 
 def edit_an_item(request, id):
     item = get_object_or_404(Item, pk=id)
-    form = ItemForm(instance=item)
+    
+    if request.method == "POST":
+        form = ItemForm(request.POST, instance=item)
+        if form.is_valid():
+            form.save()
+            return redirect(get_todo_list)
+    else:
+        form = ItemForm(instance=item)
     return render(request, "item_form.html", {'form': form})
     
     
