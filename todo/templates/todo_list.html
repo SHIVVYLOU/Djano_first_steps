@@ -19,8 +19,13 @@
                 <td>{{ item.name }}</td>
                 {% endif %}
                 <td>
-                    <form method="GET" action="edit/{{ item.id }}t">
-                        
+                    <form method="POST" action="toggle/{{ item.id }}">
+                        {% csrf_token %}
+                        <input type="submit" value="toggle" />
+                    </form>
+                </td>
+                <td>
+                    <form method="GET" action="edit/{{ item.id }}">
                         <input type="submit" value="Edit"/>
                     </form>
                 </td>
